@@ -59,11 +59,12 @@ public class PingHandler extends AbstractCommandHandler {
 	}
 
     private void setSysTime(long ctrTime) throws IOException {
-    	DateFormat dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	String[] cmd = {"date", "-s", dateTime.format(new Date(ctrTime))};
+    	DateFormat dateTimeFmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	String dt = dateTimeFmt.format(new Date(ctrTime))
+    	String[] cmd = {"date", "-s", dt};
     	String osType = System.getProperty("os.name").toLowerCase();
     	if (osType.contains("linux")) {
-    		LOGGER.debug("setting system time {} on driver {}", ctrTime, driver.getDriverInfo().getName());
+    		LOGGER.debug("setting system time {} as {} on driver {}", ctrTime, dt, driver.getDriverInfo().getName());
     		Runtime.getRuntime().exec(cmd);
 		} else {
 			LOGGER.warn("os type on driver {} is {}!", 
